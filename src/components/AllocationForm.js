@@ -14,7 +14,7 @@ const AllocationForm = (props) => {
             setShowError(false);
 
             if (typeof parseInt(cost, 10) !== 'number' || !cost) {
-                alert("Only number value");
+                alert("Accepts only numbers in the allocation field");
                 setCost("");
                 return;
             }
