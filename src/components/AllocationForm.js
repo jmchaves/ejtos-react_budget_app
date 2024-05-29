@@ -8,8 +8,16 @@ const AllocationForm = (props) => {
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
     const [action, setAction] = useState('');
+    const [showError, setShowError] = useState(false);
 
     const submitEvent = () => {
+            setShowError(false);
+
+            if (typeof parseInt(cost, 10) !== 'number' || !cost) {
+                alert("Only number value");
+                setCost("");
+                return;
+            }
 
             if(cost > remaining) {
                 alert(`The value cannot exceed remaining funds ${currency}${remaining}`);
@@ -17,9 +25,11 @@ const AllocationForm = (props) => {
                 return;
             }
 
-            if (typeof parseInt(cost, 10) !== 'number') {
-                alert("Only number value");
-                setCost("");
+            if (!name) {
+                setShowError(true);
+                setTimeout(() => {
+                    setShowError(false);
+                }, 3000);
                 return;
             }
 
@@ -49,7 +59,7 @@ const AllocationForm = (props) => {
                 <label className="input-group-text" htmlFor="inputGroupSelect01">Department</label>
                   </div>
                   <select className="custom-select" id="inputGroupSelect01" onChange={(event) => setName(event.target.value)}>
-                        <option defaultValue>Choose...</option>
+                        <option defaultValue value="">Choose...</option>
                         <option value="Marketing" name="marketing"> Marketing</option>
                 <option value="Sales" name="sales">Sales</option>
                 <option value="Finance" name="finance">Finance</option>
@@ -82,6 +92,12 @@ const AllocationForm = (props) => {
                     Save
                 </button>
                 </div>
+                {
+                    showError &&
+                    <div className="text-danger" style={{ marginLeft: '2rem' }}>
+                        Please select a department
+                    </div>
+                }
                 </div>
 
         </div>
